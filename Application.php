@@ -50,7 +50,7 @@ class Application
     private function getClassNames()
     {
         $classNames = array();
-        $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator('./src/Sruuua\Applicationlication/Command'));
+        $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator('vendor/sruuua/application/Command'));
         foreach ($iterator as $file) {
             if ($file->isDir() || $file->getExtension() !== 'php') {
                 continue;
@@ -58,7 +58,7 @@ class Application
 
             $className = str_replace('.php', '', $file->getFilename());
             $fullClassName = str_replace('/', '\\', $file->getPath()) . '\\' . $className;
-            $fullClassName = str_replace('.\src', 'Sruuua\Application', $fullClassName);
+            $fullClassName = str_replace('vendor\sruuua\application', 'Sruuua\Application', $fullClassName);
             $classNames[] = $fullClassName;
         }
 
