@@ -1,0 +1,17 @@
+{
+    "name": "sruuua/application",
+    "description": "Easy console application for sruuua framework",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Sruuua\\Application\\": ""
+        }
+    },
+    "authors": [
+        {
+            "name": "Fan2Shrek",
+            "email": "pierre27.ambroise@gmail.com"
+        }
+    ],
+    "require": {}
+}
