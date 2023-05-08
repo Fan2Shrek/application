@@ -50,7 +50,24 @@ class Application
             return $command($this->commandPool);
         }
 
-        return $command();
+        return $command(...$this->getCommandDependencies($command));
+    }
+
+    public function getCommandDependencies(CommandInterface $command)
+    {
+        $dependency = [];
+
+        $refClass = new \ReflectionClass($command);
+
+        if ($refClass->hasMethod('__construct')) {
+            $construct = $refClass->getMethod('__construct');
+
+            foreach ($construct->getParameters() as $param) {
+                $dependency[] = $this->kernel->getContainer()->get($param->getType());
+            }
+        }
+
+        return $dependency;
     }
 
     public function registerCommand()
