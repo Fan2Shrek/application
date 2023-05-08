@@ -50,10 +50,10 @@ class Application
             return $command($this->commandPool);
         }
 
-        return $command(...$this->getCommandDependencies($command));
+        return $command();
     }
 
-    public function getCommandDependencies(CommandInterface $command)
+    public function getCommandDependencies(string $command)
     {
         $dependency = [];
 
@@ -80,7 +80,7 @@ class Application
         }
 
         foreach ($this->loadCommands() as $commandClass) {
-            $this->addCommand(new $commandClass());
+            $this->addCommand(new $commandClass(...$this->getCommandDependencies($commandClass)));
         }
 
         $cachePool->save(new Cache('commandPool', $this->commandPool));
