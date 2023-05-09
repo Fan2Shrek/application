@@ -2,13 +2,13 @@
 
 namespace Sruuua\Application;
 
-use App\Kernel;
 use Composer\Autoload\ClassLoader;
 use Sruuua\Application\Interface\CommandInterface;
 use Sruuua\Application\Exception\NotFoundException;
 use Sruuua\Cache\Cache;
 use Sruuua\DependencyInjection\Container;
 use Sruuua\Kernel\BaseKernel;
+use Symfony\Component\Dotenv\Dotenv;
 
 class Application
 {
@@ -28,11 +28,13 @@ class Application
         $this->commandPool = array();
         $this->classLoader = $classLoader;
         $this->initializeKernel($this->classLoader);
+        $this->loadEnv();
     }
 
     public function get(string $command)
     {
         if (empty($this->commandPool)) $this->registerCommand();
+
         return $this->commandPool[$command] ?? null;
     }
 
@@ -101,5 +103,11 @@ class Application
         $this->kernel = new AppKernel($classLoader);
 
         return $this->kernel;
+    }
+
+    public function loadEnv()
+    {
+        $dotenv = new Dotenv();
+        $dotenv->load('../.env');
     }
 }
